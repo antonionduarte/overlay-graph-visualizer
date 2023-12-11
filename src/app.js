@@ -1,17 +1,30 @@
+console.log(Prism.languages)
+
 // Test nodes
 const nodes = [
-    { id: "node1" },
-    { id: "node2" },
-    { id: "node3" },
-    { id: "node4" }
+    { id: "1000", state: { property1: "value1", property2: "value1" } },
+    { id: "1001", state: { property1: "value1", property2: "value1" } },
+    { id: "1002", state: { property1: "value1", property2: "value1" } },
+    { id: "1003", state: { property1: "value1", property2: "value1" } },
+    { id: "1004", state: { property1: "value1", property2: "value1" } },
+    { id: "1004", state: { property1: "value1", property2: "value1" } },
+    { id: "1006", state: { property1: "value1", property2: "value1" } },
+    { id: "1007", state: { property1: "value1", property2: "value1" } },
+    { id: "1008", state: { property1: "value1", property2: "value1" } },
+    { id: "1009", state: { property1: "value1", property2: "value1" } },
+    { id: "1010", state: { property1: "value1", property2: "value1", property4: [ { property17: "value2300", property20: "value500" },  "value120", "value400" ] } },
+    { id: "1011", state: { property1: "value1", property2: "value1", property3: "value1", property4: "value1", property5: "value1" } }
 ];
 
 // Test links
 const links = [
-    { source: "node1", target: "node2" },
-    { source: "node2", target: "node3" },
-    { source: "node3", target: "node4" },
-    { source: "node4", target: "node1" }
+    { source: "1000", target: "1001" },
+    { source: "1001", target: "1002" },
+    { source: "1002", target: "1003" },
+    { source: "1003", target: "1000" },
+    { source: "1010", target: "1008" },
+    { source: "1009", target: "1006" },
+    { source: "1010", target: "1011" }
 ];
 
 // Colorscheme
@@ -25,12 +38,12 @@ const catppuccinMocha = {
 // Function to create the chart
 function createChart(svg, simulation) {
     let link = svg.append("g")
-        .attr("stroke", catppuccinMocha.link)
+        .attr("stroke", "#999")
         .attr("stroke-opacity", 0.6)
         .selectAll("line");
 
     let node = svg.append("g")
-        .attr("stroke", catppuccinMocha.nodeStroke)
+        .attr("stroke", catppuccinMocha.background)
         .attr("stroke-width", 1.5)
         .selectAll("circle");
 
@@ -57,6 +70,7 @@ function createChart(svg, simulation) {
                 .join(enter => enter.append("circle")
                     .attr("r", 5)
                     .attr("fill", catppuccinMocha.node)
+					.on("click", (event, d) => { showModal(d, event); })
                     .call(drag(simulation))
                     .call(node => node.append("title").text(d => d.id)));
 
@@ -100,6 +114,32 @@ function drag(simulation) {
 function contains ({start, end}, time) {
     return start <= time && time < end
 } 
+
+// Modal with node information
+function showModal(nodeData, event) {
+    var modal = document.getElementById("open-modal");
+    var modalNodeId = document.getElementById("modal-node-id");
+    var modalState = document.getElementById("modalState");
+
+    modalNodeId.textContent = `ID: ${nodeData.id}`;
+    modalState.textContent = JSON.stringify(nodeData.state, null, 2);
+
+    Prism.highlightElement(modalState);
+
+    // Show the modal
+    modal.style.visibility = 'visible';
+    modal.style.opacity = '1';
+    modal.style.pointerEvents = 'auto';
+
+    // Close when clicking outside the modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+        }
+    }
+}
 
 // Initialize the chart
 document.addEventListener("DOMContentLoaded", function() {

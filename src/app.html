@@ -3,10 +3,23 @@
 	<head>
 		<title>Overlay Visualizer</title>
 		<meta charset="utf-8">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Ubuntu&family=Ubuntu+Mono&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="app.css">
-	</head>
 	<body>
 		<div id="chart"></div>
+
+		<div id="open-modal" class="modal-window">
+			<h1 class="modal-title-highlighted">Node State</h1><br>
+
+			<strong class="modal-id-highlighted" id="modal-node-id"></strong><br>
+			<strong class="modal-state-highlighted">Internal State:</strong><br>
+			<pre><code id="modalState" class="language-json"></code></pre>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
 		<script src="https://d3js.org/d3.v6.min.js"></script>
 		<script type="module" src="app.js"></script>
 	</body>

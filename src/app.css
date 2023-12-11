@@ -5,9 +5,260 @@ body, html {
 	width: 100%;
 	height: 100%;
 	background-color: #24273a;
+	font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-weight: 600;
+	/* background-image: linear-gradient(to right, #7f53ac 0, #657ced 100%); */
+	color: black;
+	font-size: 8px;
+	line-height: 1.4;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.modal-window {
+  position: fixed;
+  bottom: 10px; /* Adjust padding from bottom */
+  right: 10px; /* Adjust padding from right */
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  padding: 1em;
+  background: #eff1f5;
+  border-radius: 1rem;
+  box-sizing: border-box; /* Include padding in the width and height */
+}
+
+.modal-close {
+  color: #aaa;
+  line-height: 40px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+  
+  &:hover {
+    color: black;
+  }
+}
+
+/* Additional style for the modal title to create a highlight effect */
+.modal-title-highlighted {
+  position: relative;
+  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+  display: inline; /* Makes the background only as wide as the text */
+  padding: 0 5px; /* Add some padding to extend the background slightly */
+}
+
+/* Style for a pseudo-element to fine-tune the highlight effect */
+.modal-title-highlighted::before {
+  content: '';
+  position: absolute;
+  top: 70%; /* Position the pseudo-element vertically in the middle */
+  left: 0;
+  right: 0;
+  height: 12px; /* Height of the highlight streak */
+  background-color: rgba(125, 196, 228, 0.8); /* Same yellow color */
+  z-index: -1; /* Place it under the text */
+  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+}
+
+.modal-state-highlighted {
+  position: relative;
+  /* background-color: rgba(125, 196, 228, 0.5); /* Yellow color with opacity */
+  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+  display: inline; /* Makes the background only as wide as the text */
+  padding: 0 5px; /* Add some padding to extend the background slightly */
+}
+
+/* Style for a pseudo-element to fine-tune the highlight effect */
+.modal-state-highlighted::before {
+  content: '';
+  position: absolute;
+  top: 70%; /* Position the pseudo-element vertically in the middle */
+  left: 0;
+  right: 0;
+  height: 7px; /* Height of the highlight streak */
+  background-color: rgba(238, 153, 160, 0.8); /* Same yellow color */
+  z-index: -1; /* Place it under the text */
+  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+}
+
+.modal-id-highlighted {
+  position: relative;
+  /* background-color: rgba(125, 196, 228, 0.5); /* Yellow color with opacity */
+  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+  display: inline; /* Makes the background only as wide as the text */
+  padding: 0 5px; /* Add some padding to extend the background slightly */
+}
+
+/* Style for a pseudo-element to fine-tune the highlight effect */
+.modal-id-highlighted::before {
+  content: '';
+  position: absolute;
+  top: 70%; /* Position the pseudo-element vertically in the middle */
+  left: 0;
+  right: 0;
+  height: 7px; /* Height of the highlight streak */
+  background-color: rgba(238, 212, 159, 0.8); /* Same yellow color */
+  z-index: -1; /* Place it under the text */
+  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+}
+
+/*.modal-window pre, .modal-window code {
+  font-family: 'Roboto Mono', monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+}*/
 
 #chart svg {
 	height: 100%;
 	width: 100%;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #a9b7c6;
+  font-family: 'Ubuntu Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+	color: #808080;
+}
+
+.token.delimiter,
+.token.boolean,
+.token.keyword,
+.token.selector,
+.token.important,
+.token.atrule {
+	color: #cc7832;
+}
+
+.token.operator,
+.token.punctuation,
+.token.attr-name {
+	color: #a9b7c6;
+}
+
+.token.tag,
+.token.tag .punctuation,
+.token.doctype,
+.token.builtin {
+	color: #e8bf6a;
+}
+
+.token.entity,
+.token.number,
+.token.symbol {
+	color: #6897bb;
+}
+
+.token.property,
+.token.constant,
+.token.variable {
+	color: #9876aa;
+}
+
+.token.string,
+.token.char {
+	color: #dc8a78;
+}
+
+.token.attr-value,
+.token.attr-value .punctuation {
+	color: #a5c261;
+}
+
+.token.attr-value .punctuation:first-child {
+	color: #a9b7c6;
+}
+
+.token.url {
+	color: #287bde;
+	text-decoration: underline;
+}
+
+.token.function {
+	color: #ffc66d;
+}
+
+.token.regex {
+	background: #364135;
+}
+
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.inserted {
+	background: #294436;
+}
+
+.token.deleted {
+	background: #484a4a;
+}
+
+code.language-css .token.property,
+code.language-css .token.property + .token.punctuation {
+	color: #7287fd;
+}
+
+code.language-css .token.id {
+	color: #ffc66d;
+}
+
+code.language-css .token.selector > .token.class,
+code.language-css .token.selector > .token.attribute,
+code.language-css .token.selector > .token.pseudo-class,
+code.language-css .token.selector > .token.pseudo-element {
+	color: #ffc66d;
 }
