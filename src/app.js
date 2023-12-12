@@ -1,24 +1,21 @@
 // Example logs
-logs = [
-    { timestamp: 0, node: 1, operation: { type: "spawned" }, currentState: { property1: "value1" }, features: [] },
-    { timestamp: 0, node: 2, operation: { type: "spawned" }, currentState: {}, features: [] },
-    { timestamp: 1, node: 3, operation: { type: "spawned" }, currentState: {}, features: [] },
-
-    { timestamp: 2, node: 4, operation: { type: "spawned" }, currentState: {}, features: [] },
-    { timestamp: 2, node: 4, operation: { type: "despawned" }, currentState: {}, features: [] },
-    { timestamp: 3, node: 4, operation: { type: "spawned" }, currentState: {}, features: [] },
-
-    { timestamp: 4, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: [] },
-    { timestamp: 5, node: 2, operation: { type: "disconnected", targetNode: 2 }, currentState: {}, features: [] },
-    { timestamp: 5, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: {}, features: [] },
-
-    { timestamp: 6, node: 2, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: [] },
-    { timestamp: 7, node: 2, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: [] },
-    { timestamp: 8, node: 1, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: [] },
-    
-    { timestamp: 9, node: 3, operation: { type: "connected", targetNode: 2 }, currentState: {}, features: [] },
-    { timestamp: 10, node: 4, operation: { type: "despawned" }, currentState: {}, features: [] },
-    { timestamp: 11, node: 1, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: [] },
+let logs = [
+    { timestamp: 0, node: 1, operation: { type: "spawned" }, currentState: { property1: "value1" }, features: ["A"] },
+    { timestamp: 0, node: 2, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
+    { timestamp: 1, node: 3, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
+    { timestamp: 2, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 3, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 4, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 5, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["A"] },
+    { timestamp: 6, node: 1, operation: { type: "disconnected", targetNode: 2 }, currentState: {}, features: ["A"] },
+    { timestamp: 7, node: 3, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+    { timestamp: 8, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["B"] },
+    { timestamp: 8, node: 2, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["B"] },
+    { timestamp: 9, node: 2, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+    { timestamp: 10, node: 1, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+	{ timestamp: 10, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 11, node: 1, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["C"] },
+	{ timestamp: 12, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
 ]
 
 let currentTimestamp = 0; // Tracks the current timestamp
@@ -63,30 +60,32 @@ function createChart(svg, simulation) {
     simulation.on("tick", ticked);
 
     return {
-        update({nodes, links}) {
-            const old = new Map(node.data().map(d => [d.id, d]));
-            nodes = nodes.map(d => ({...old.get(d.id), ...d}));
-            links = links.map(d => ({...d}));
+        update({ nodes, links }) {
+            // Make a shallow copy to protect against mutation, while
+            // recycling old nodes to preserve position and velocity.
+            const oldNodes = new Map(node.data().map(d => [d.id, d]));
+            nodes = nodes.map(d => Object.assign(oldNodes.get(d.id) || {}, d));
+			links = links.map(d => ({...d}));
 
-            node = node
-                .data(nodes, d => d.id)
-                .join(enter => enter.append("circle")
-                    .attr("r", 5)
-					// .attr("fill", catppuccinMocha.node) // Static color
-                    .attr("fill", d => getColorFromFeatures(d.features)) // Set color based on score
-					.on("click", (event, d) => { showModal(d, event); })
-                    .call(drag(simulation))
-                    .call(node => node.append("title").text(d => d.id)));
+            // Update the nodes data
+            node = node.data(nodes, d => d.id)
+                .join(
+					enter => enter.append("circle")
+						.attr("r", 5)
+						.attr("fill", d => getColorFromFeatures(d.features))
+						.call(drag(simulation))
+						.call(node => node.append("title").text(d => d.id ))
+						.on("click", (event, d) => { showModal(d, event); }),
+					update => update
+						.attr("fill", d => getColorFromFeatures(d.features))
+                );
 
-            link = link
-                .data(links, d => [d.source, d.target])
-                .join("line");
+            // Update the links data
+			link = link
+				.data(links, d => [d.source, d.target])
+				.join("line");
 
-			nodes.forEach(node => {
-				node.x = Math.random() * window.width;
-				node.y = Math.random() * window.height;
-			})
-
+            // Update the simulation with the new data
             simulation.nodes(nodes);
             simulation.force("link").links(links);
             simulation.alpha(1).restart();
@@ -119,11 +118,6 @@ function drag(simulation) {
         .on("end", dragended);
 }
 
-// Check if a given time is contained within the bound of start and end time 
-function contains ({start, end}, time) {
-    return start <= time && time < end
-} 
-
 // Modal with node information
 function showModal(nodeData, event) {
     var modal = document.getElementById("open-modal");
@@ -152,8 +146,65 @@ function showModal(nodeData, event) {
     }
 }
 
+// Function to process and apply a single log entry
+// TODO: I need to update the node State and Features in every log process
+function processLogEntry(entry) {
+    const { timestamp, node, operation, currentState, features } = entry;
+
+    switch (operation.type) {
+        case "spawned":
+            currentNodes.set(`node${node}`, { id: `node${node}`, ...currentState, features });
+            break;
+        case "despawned":
+            currentNodes.delete(`node${node}`);
+            // Remove any links associated with this node
+            currentLinks.forEach(link => {
+                if (link.source === `node${node}` || link.target === `node${node}`) {
+                    currentLinks.delete(link);
+                }
+            });
+            break;
+		case "connected":
+            currentNodes.set(`node${node}`, { id: `node${node}`, ...currentState, features });
+			currentLinks.add({
+				source: `node${node}`,
+				target: `node${operation.targetNode}`
+			})
+			break;
+		case "disconnected":
+            currentNodes.set(`node${node}`, { id: `node${node}`, ...currentState, features });
+			currentLinks.forEach(link => {
+				// TODO: Bidirectionally check for equality? Or maybe not? Maybe it's preferable
+				// to represent the view from within a node.
+                if (link.source === `node${node}` && link.target === `node${operation.targetNode}`) {
+                    currentLinks.delete(link);
+                }
+			})
+			break;
+		}
+}
+
+// Function that updates graph based on logs
+function updateGraph(newTimestamp, chart) {
+	console.log(`Processing timestamp: ${newTimestamp}`)
+    // Process logs in the range from currentTimestamp to newTimestamp
+    const logsToProcess = (newTimestamp >= currentTimestamp) 
+        ? logs.filter(log => log.timestamp >= currentTimestamp && log.timestamp <= newTimestamp)
+        : logs.filter(log => log.timestamp <= newTimestamp);
+
+    logsToProcess.forEach(log => processLogEntry(log));
+    currentTimestamp = newTimestamp;
+
+    // Convert the currentNodes and currentLinks to arrays for D3
+    const nodes = Array.from(currentNodes.values())
+    const links = Array.from(currentLinks);
+
+    // Update the chart with the new nodes and links
+    chart.update({ nodes, links });
+}
+
 // Initialize the chart
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -169,6 +220,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .attr("height", height)
         .attr("style", "max-width: 100%; height: auto;");
 
+    simulation.nodes([]);
+    simulation.force("link").links([]);
+
     function resizeChart() {
         svg.attr("width", window.innerWidth)
             .attr("height", window.innerHeight)
@@ -181,11 +235,54 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('resize', resizeChart)
 
     const chart = createChart(svg, simulation);
-    chart.update({ nodes: extendedGraph.nodes, links: extendedGraph.links });
+
+    updateGraph(0, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(1, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(2, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(3, chart);  // Assuming 01is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(4, chart);  // Assuming 0 is the starting timestamp
+    updateGraph(5, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(6, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(7, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(8, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(9, chart);  // Assuming 0 is the starting timestamp
+
+    updateGraph(10, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
+	await new Promise(r => setTimeout(r, 1000));
+    updateGraph(11, chart);  // Assuming 0 is the starting timestamp
+	console.log(currentNodes)
+	console.log(currentLinks)
 });
 
 // --- Functions related to different hue for different properties ---
 
+// Maps a specific feature to a specific Hue
 function mapFeatureToHue(feature) {
     if (!(feature in featureToHue)) {
         featureToHue[feature] = nextHue;
@@ -194,6 +291,7 @@ function mapFeatureToHue(feature) {
     return featureToHue[feature];
 }
 
+// Determines the color that the node should have, from the list of features
 function getColorFromFeatures(features) {
     if (features.length === 0) return 'hsl(0, 0%, 85%)'; // Default color for no features
 
