@@ -1,31 +1,34 @@
-console.log(Prism.languages)
+// Example logs
+logs = [
+    { timestamp: 0, node: 1, operation: { type: "spawned" }, currentState: { property1: "value1" }, features: [] },
+    { timestamp: 0, node: 2, operation: { type: "spawned" }, currentState: {}, features: [] },
+    { timestamp: 1, node: 3, operation: { type: "spawned" }, currentState: {}, features: [] },
 
-// Test nodes
-const nodes = [
-    { id: "1000", state: { property1: "value1", property2: "value1" } },
-    { id: "1001", state: { property1: "value1", property2: "value1" } },
-    { id: "1002", state: { property1: "value1", property2: "value1" } },
-    { id: "1003", state: { property1: "value1", property2: "value1" } },
-    { id: "1004", state: { property1: "value1", property2: "value1" } },
-    { id: "1004", state: { property1: "value1", property2: "value1" } },
-    { id: "1006", state: { property1: "value1", property2: "value1" } },
-    { id: "1007", state: { property1: "value1", property2: "value1" } },
-    { id: "1008", state: { property1: "value1", property2: "value1" } },
-    { id: "1009", state: { property1: "value1", property2: "value1" } },
-    { id: "1010", state: { property1: "value1", property2: "value1", property4: [ { property17: "value2300", property20: "value500" },  "value120", "value400" ] } },
-    { id: "1011", state: { property1: "value1", property2: "value1", property3: "value1", property4: "value1", property5: "value1" } }
-];
+    { timestamp: 2, node: 4, operation: { type: "spawned" }, currentState: {}, features: [] },
+    { timestamp: 2, node: 4, operation: { type: "despawned" }, currentState: {}, features: [] },
+    { timestamp: 3, node: 4, operation: { type: "spawned" }, currentState: {}, features: [] },
 
-// Test links
-const links = [
-    { source: "1000", target: "1001" },
-    { source: "1001", target: "1002" },
-    { source: "1002", target: "1003" },
-    { source: "1003", target: "1000" },
-    { source: "1010", target: "1008" },
-    { source: "1009", target: "1006" },
-    { source: "1010", target: "1011" }
-];
+    { timestamp: 4, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: [] },
+    { timestamp: 5, node: 2, operation: { type: "disconnected", targetNode: 2 }, currentState: {}, features: [] },
+    { timestamp: 5, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: {}, features: [] },
+
+    { timestamp: 6, node: 2, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: [] },
+    { timestamp: 7, node: 2, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: [] },
+    { timestamp: 8, node: 1, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: [] },
+    
+    { timestamp: 9, node: 3, operation: { type: "connected", targetNode: 2 }, currentState: {}, features: [] },
+    { timestamp: 10, node: 4, operation: { type: "despawned" }, currentState: {}, features: [] },
+    { timestamp: 11, node: 1, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: [] },
+]
+
+let currentTimestamp = 0; // Tracks the current timestamp
+
+let currentNodes = new Map(); // Tracks current nodes using a Map for easy access
+let currentLinks = new Set(); // Tracks current links using a Set
+
+// Node colors
+const featureToHue = {};
+let nextHue = 0;
 
 // Colorscheme
 const catppuccinMocha = {
@@ -69,7 +72,8 @@ function createChart(svg, simulation) {
                 .data(nodes, d => d.id)
                 .join(enter => enter.append("circle")
                     .attr("r", 5)
-                    .attr("fill", catppuccinMocha.node)
+					// .attr("fill", catppuccinMocha.node) // Static color
+                    .attr("fill", d => getColorFromFeatures(d.features)) // Set color based on score
 					.on("click", (event, d) => { showModal(d, event); })
                     .call(drag(simulation))
                     .call(node => node.append("title").text(d => d.id)));
@@ -77,6 +81,11 @@ function createChart(svg, simulation) {
             link = link
                 .data(links, d => [d.source, d.target])
                 .join("line");
+
+			nodes.forEach(node => {
+				node.x = Math.random() * window.width;
+				node.y = Math.random() * window.height;
+			})
 
             simulation.nodes(nodes);
             simulation.force("link").links(links);
@@ -121,8 +130,10 @@ function showModal(nodeData, event) {
     var modalNodeId = document.getElementById("modal-node-id");
     var modalState = document.getElementById("modalState");
 
+	const fullState = { state: nodeData.state, features: nodeData.features }
+
     modalNodeId.textContent = `ID: ${nodeData.id}`;
-    modalState.textContent = JSON.stringify(nodeData.state, null, 2);
+    modalState.textContent = JSON.stringify(fullState, null, 2);
 
     Prism.highlightElement(modalState);
 
@@ -147,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const height = window.innerHeight;
 
     const simulation = d3.forceSimulation()
-        .force("charge", d3.forceManyBody())
+        .force("charge", d3.forceManyBody().strength(-50))
         .force("link", d3.forceLink().id(d => d.id))
         .force("x", d3.forceX())
         .force("y", d3.forceY());
@@ -162,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
         svg.attr("width", window.innerWidth)
             .attr("height", window.innerHeight)
             .attr("viewBox", [-window.innerWidth / 2, -window.innerHeight / 2, window.innerWidth, window.innerHeight]);
+
         simulation.force("x", d3.forceX().strength(0.1)).force("y", d3.forceY().strength(0.1));
     }
 
@@ -169,8 +181,25 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('resize', resizeChart)
 
     const chart = createChart(svg, simulation);
-
-    // Load your data here and call chart.update({nodes, links})
-
-    chart.update({ nodes, links });
+    chart.update({ nodes: extendedGraph.nodes, links: extendedGraph.links });
 });
+
+// --- Functions related to different hue for different properties ---
+
+function mapFeatureToHue(feature) {
+    if (!(feature in featureToHue)) {
+        featureToHue[feature] = nextHue;
+        nextHue = (nextHue + 137) % 360; // Use the golden angle for distribution
+    }
+    return featureToHue[feature];
+}
+
+function getColorFromFeatures(features) {
+    if (features.length === 0) return 'hsl(0, 0%, 85%)'; // Default color for no features
+
+    const hues = features.map(mapFeatureToHue);
+    const averageHue = hues.reduce((sum, hue) => sum + hue, 0) / hues.length;
+
+    return `hsl(${averageHue}, 70%, 85%)`; // Return HSL color with average hue
+}
+

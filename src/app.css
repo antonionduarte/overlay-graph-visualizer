@@ -14,121 +14,126 @@ body, html {
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 .container {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+	display: grid;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
 
 .modal-window {
-  position: fixed;
-  bottom: 10px; /* Adjust padding from bottom */
-  right: 10px; /* Adjust padding from right */
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-  padding: 1em;
-  background: #eff1f5;
-  border-radius: 1rem;
-  box-sizing: border-box; /* Include padding in the width and height */
+	position: fixed;
+	bottom: 10px; /* Adjust padding from bottom */
+	right: 10px; /* Adjust padding from right */
+	z-index: 999;
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.3s;
+	padding: 1em;
+	background: #eff1f5;
+	border-radius: 1rem;
+	box-sizing: border-box; /* Include padding in the width and height */
+	/* transition: height 1s ease, width 1s ease; /* Adjust '0.3s' to control the speed */
+    /* box-sizing: border-box; */
+    /* max-height: 0; /* Initially no height */ */
+    /* max-width: 400px; /* Max width can be adjusted as needed */ */
+    /* overflow: hidden; /* Hide overflow during transition */ */
+    transition: max-height 0.3s ease, opacity 0.3s ease; /* Transition for max-height and opacity */
+}
+
+.modal-window h1 {
+	font-weight: 900;
 }
 
 .modal-close {
-  color: #aaa;
-  line-height: 40px;
-  font-size: 80%;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 70px;
-  text-decoration: none;
-  
-  &:hover {
-    color: black;
-  }
+	color: #aaa;
+	line-height: 40px;
+	font-size: 80%;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 70px;
+	text-decoration: none;
+
+	&:hover {
+		color: black;
+	}
 }
 
 /* Additional style for the modal title to create a highlight effect */
 .modal-title-highlighted {
-  position: relative;
-  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
-  display: inline; /* Makes the background only as wide as the text */
-  padding: 0 5px; /* Add some padding to extend the background slightly */
+	position: relative;
+	line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+	display: inline; /* Makes the background only as wide as the text */
+	padding: 0 5px; /* Add some padding to extend the background slightly */
 }
 
 /* Style for a pseudo-element to fine-tune the highlight effect */
 .modal-title-highlighted::before {
-  content: '';
-  position: absolute;
-  top: 70%; /* Position the pseudo-element vertically in the middle */
-  left: 0;
-  right: 0;
-  height: 12px; /* Height of the highlight streak */
-  background-color: rgba(125, 196, 228, 0.8); /* Same yellow color */
-  z-index: -1; /* Place it under the text */
-  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+	content: '';
+	position: absolute;
+	top: 70%; /* Position the pseudo-element vertically in the middle */
+	left: 0;
+	right: 0;
+	height: 12px; /* Height of the highlight streak */
+	background-color: rgba(125, 196, 228, 0.8); /* Same yellow color */
+	z-index: -1; /* Place it under the text */
+	transform: translateY(-50%); /* Center it perfectly in the middle of the line */
 }
 
 .modal-state-highlighted {
-  position: relative;
-  /* background-color: rgba(125, 196, 228, 0.5); /* Yellow color with opacity */
-  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
-  display: inline; /* Makes the background only as wide as the text */
-  padding: 0 5px; /* Add some padding to extend the background slightly */
+	position: relative;
+	/* background-color: rgba(125, 196, 228, 0.5); /* Yellow color with opacity */
+	line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+	display: inline; /* Makes the background only as wide as the text */
+	padding: 0 5px; /* Add some padding to extend the background slightly */
 }
 
 /* Style for a pseudo-element to fine-tune the highlight effect */
 .modal-state-highlighted::before {
-  content: '';
-  position: absolute;
-  top: 70%; /* Position the pseudo-element vertically in the middle */
-  left: 0;
-  right: 0;
-  height: 7px; /* Height of the highlight streak */
-  background-color: rgba(238, 153, 160, 0.8); /* Same yellow color */
-  z-index: -1; /* Place it under the text */
-  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+	content: '';
+	position: absolute;
+	top: 70%; /* Position the pseudo-element vertically in the middle */
+	left: 0;
+	right: 0;
+	height: 7px; /* Height of the highlight streak */
+	background-color: rgba(238, 153, 160, 0.8); /* Same yellow color */
+	z-index: -1; /* Place it under the text */
+	transform: translateY(-50%); /* Center it perfectly in the middle of the line */
 }
 
 .modal-id-highlighted {
-  position: relative;
-  /* background-color: rgba(125, 196, 228, 0.5); /* Yellow color with opacity */
-  line-height: 1.4; /* Adjust line-height to control the height of the highlight */
-  display: inline; /* Makes the background only as wide as the text */
-  padding: 0 5px; /* Add some padding to extend the background slightly */
+	position: relative;
+	line-height: 1.4; /* Adjust line-height to control the height of the highlight */
+	display: inline; /* Makes the background only as wide as the text */
+	padding: 0 5px; /* Add some padding to extend the background slightly */
 }
 
 /* Style for a pseudo-element to fine-tune the highlight effect */
 .modal-id-highlighted::before {
-  content: '';
-  position: absolute;
-  top: 70%; /* Position the pseudo-element vertically in the middle */
-  left: 0;
-  right: 0;
-  height: 7px; /* Height of the highlight streak */
-  background-color: rgba(238, 212, 159, 0.8); /* Same yellow color */
-  z-index: -1; /* Place it under the text */
-  transform: translateY(-50%); /* Center it perfectly in the middle of the line */
+	content: '';
+	position: absolute;
+	top: 70%; /* Position the pseudo-element vertically in the middle */
+	left: 0;
+	right: 0;
+	height: 7px; /* Height of the highlight streak */
+	background-color: rgba(238, 212, 159, 0.8); /* Same yellow color */
+	z-index: -1; /* Place it under the text */
+	transform: translateY(-50%); /* Center it perfectly in the middle of the line */
 }
-
-/*.modal-window pre, .modal-window code {
-  font-family: 'Roboto Mono', monospace;
-  white-space: pre-wrap;
-  word-break: break-all;
-}*/
 
 #chart svg {
 	height: 100%;
 	width: 100%;
 }
+
+/* --- Syntax Highlighting for JSON within modals --- */
 
 code[class*="language-"],
 pre[class*="language-"] {
