@@ -30,3 +30,26 @@
     { "timestamp": 11, "node": 1, "operation": { "type": "connected", "targetNode": 3 }, "currentState": {}, "features": [] },
 }
 ```
+
+Hardcoded test logs:
+```js
+let logs = [
+    { timestamp: 0, node: 1, operation: { type: "spawned" }, currentState: { property1: "value1" }, features: ["A"] },
+    { timestamp: 0, node: 2, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
+    { timestamp: 1, node: 3, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
+    { timestamp: 2, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 3, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 4, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 5, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["A"] },
+    { timestamp: 6, node: 1, operation: { type: "disconnected", targetNode: 2 }, currentState: {}, features: ["A"] },
+    { timestamp: 7, node: 3, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+    { timestamp: 8, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["B"] },
+    { timestamp: 8, node: 2, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["B"] },
+    { timestamp: 9, node: 2, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+    { timestamp: 10, node: 1, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
+    { timestamp: 10, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
+    { timestamp: 11, node: 1, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["C"] },
+    { timestamp: 12, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
+]
+
+```

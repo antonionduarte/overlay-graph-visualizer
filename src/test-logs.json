@@ -1,0 +1,486 @@
+[
+    {
+        "timestamp": 6,
+        "node": 46,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "D",
+            "E",
+            "F"
+        ]
+    },
+    {
+        "timestamp": 8,
+        "node": 46,
+        "operation": {
+            "type": "despawned"
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 11,
+        "node": 7,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "F",
+            "C",
+            "D",
+            "B"
+        ]
+    },
+    {
+        "timestamp": 12,
+        "node": 69,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "E",
+            "A",
+            "B"
+        ]
+    },
+    {
+        "timestamp": 13,
+        "node": 80,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 14,
+        "node": 26,
+        "operation": {
+            "type": "connected",
+            "targetNode": 7
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 15,
+        "node": 20,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 7
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 16,
+        "node": 100,
+        "operation": {
+            "type": "connected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 17,
+        "node": 21,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "F",
+            "G",
+            "E",
+            "C"
+        ]
+    },
+    {
+        "timestamp": 19,
+        "node": 51,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 20,
+        "node": 53,
+        "operation": {
+            "type": "connected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 21,
+        "node": 44,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "A",
+            "F",
+            "D",
+            "B"
+        ]
+    },
+    {
+        "timestamp": 22,
+        "node": 48,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 24,
+        "node": 87,
+        "operation": {
+            "type": "connected",
+            "targetNode": 7
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 25,
+        "node": 78,
+        "operation": {
+            "type": "connected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 26,
+        "node": 49,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 28,
+        "node": 23,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 29,
+        "node": 17,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "B",
+            "F",
+            "A",
+            "E",
+            "G",
+            "C",
+            "D"
+        ]
+    },
+    {
+        "timestamp": 30,
+        "node": 34,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "G",
+            "A"
+        ]
+    },
+    {
+        "timestamp": 31,
+        "node": 71,
+        "operation": {
+            "type": "connected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 33,
+        "node": 7,
+        "operation": {
+            "type": "connected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 34,
+        "node": 84,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 35,
+        "node": 19,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "G",
+            "C",
+            "D"
+        ]
+    },
+    {
+        "timestamp": 36,
+        "node": 63,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "C",
+            "F",
+            "G"
+        ]
+    },
+    {
+        "timestamp": 38,
+        "node": 98,
+        "operation": {
+            "type": "connected",
+            "targetNode": 63
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 40,
+        "node": 82,
+        "operation": {
+            "type": "connected",
+            "targetNode": 7
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 41,
+        "node": 83,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 17
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 42,
+        "node": 8,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 34
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 43,
+        "node": 68,
+        "operation": {
+            "type": "connected",
+            "targetNode": 21
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 44,
+        "node": 33,
+        "operation": {
+            "type": "connected",
+            "targetNode": 63
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 46,
+        "node": 91,
+        "operation": {
+            "type": "connected",
+            "targetNode": 69
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 47,
+        "node": 65,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 44
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 48,
+        "node": 46,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 19
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 49,
+        "node": 93,
+        "operation": {
+            "type": "connected",
+            "targetNode": 21
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 50,
+        "node": 45,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 7
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 51,
+        "node": 57,
+        "operation": {
+            "type": "connected",
+            "targetNode": 63
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 52,
+        "node": 41,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 34
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 53,
+        "node": 10,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 34
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 54,
+        "node": 67,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "C",
+            "A",
+            "G",
+            "F",
+            "E",
+            "B"
+        ]
+    },
+    {
+        "timestamp": 55,
+        "node": 62,
+        "operation": {
+            "type": "connected",
+            "targetNode": 19
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 56,
+        "node": 81,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 21
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 57,
+        "node": 18,
+        "operation": {
+            "type": "spawned"
+        },
+        "currentState": {},
+        "features": [
+            "C",
+            "A",
+            "E",
+            "G",
+            "F",
+            "D",
+            "B"
+        ]
+    },
+    {
+        "timestamp": 58,
+        "node": 26,
+        "operation": {
+            "type": "disconnected",
+            "targetNode": 21
+        },
+        "currentState": {},
+        "features": []
+    },
+    {
+        "timestamp": 59,
+        "node": 63,
+        "operation": {
+            "type": "despawned"
+        },
+        "currentState": {},
+        "features": []
+    }
+]

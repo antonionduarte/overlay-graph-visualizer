@@ -1,23 +1,3 @@
-// Example logs
-let logs = [
-    { timestamp: 0, node: 1, operation: { type: "spawned" }, currentState: { property1: "value1" }, features: ["A"] },
-    { timestamp: 0, node: 2, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
-    { timestamp: 1, node: 3, operation: { type: "spawned" }, currentState: {}, features: ["B"] },
-    { timestamp: 2, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
-    { timestamp: 3, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
-    { timestamp: 4, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
-    { timestamp: 5, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["A"] },
-    { timestamp: 6, node: 1, operation: { type: "disconnected", targetNode: 2 }, currentState: {}, features: ["A"] },
-    { timestamp: 7, node: 3, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
-    { timestamp: 8, node: 1, operation: { type: "connected", targetNode: 2 }, currentState: { property1: "value1" }, features: ["B"] },
-    { timestamp: 8, node: 2, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["B"] },
-    { timestamp: 9, node: 2, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
-    { timestamp: 10, node: 1, operation: { type: "connected", targetNode: 4 }, currentState: {}, features: ["B"] },
-	{ timestamp: 10, node: 4, operation: { type: "despawned" }, currentState: {}, features: ["A"] },
-    { timestamp: 11, node: 1, operation: { type: "connected", targetNode: 3 }, currentState: {}, features: ["C"] },
-	{ timestamp: 12, node: 4, operation: { type: "spawned" }, currentState: {}, features: ["A"] },
-]
-
 let currentTimestamp = 0; // Tracks the current timestamp
 
 let currentNodes = new Map(); // Tracks current nodes using a Map for easy access
@@ -34,6 +14,12 @@ const catppuccinMocha = {
     nodeStroke: "#89b4fa",  // Mauve
     link: "#89b4fa"        // Green
 };
+
+// Loads logs from file
+async function loadLogs() {
+	const response = await fetch("http://127.0.0.1:8080/src/test-logs.json");
+	return await response.json();
+}
 
 // Function to create the chart
 function createChart(svg, simulation) {
@@ -185,8 +171,7 @@ function processLogEntry(entry) {
 }
 
 // Function that updates graph based on logs
-function updateGraph(newTimestamp, chart) {
-	console.log(`Processing timestamp: ${newTimestamp}`)
+function updateGraph(newTimestamp, chart, logs) {
     // Process logs in the range from currentTimestamp to newTimestamp
     const logsToProcess = (newTimestamp >= currentTimestamp) 
         ? logs.filter(log => log.timestamp >= currentTimestamp && log.timestamp <= newTimestamp)
@@ -205,6 +190,7 @@ function updateGraph(newTimestamp, chart) {
 
 // Initialize the chart
 document.addEventListener("DOMContentLoaded", async function() {
+	const logs = await loadLogs();
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -236,48 +222,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     const chart = createChart(svg, simulation);
 
-    updateGraph(0, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(1, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(2, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(3, chart);  // Assuming 01is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(4, chart);  // Assuming 0 is the starting timestamp
-    updateGraph(5, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(6, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(7, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(8, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(9, chart);  // Assuming 0 is the starting timestamp
-
-    updateGraph(10, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
-	await new Promise(r => setTimeout(r, 1000));
-    updateGraph(11, chart);  // Assuming 0 is the starting timestamp
-	console.log(currentNodes)
-	console.log(currentLinks)
+	for (let i = 0; i < 60; i++) {
+		updateGraph(i, chart, logs)
+		await new Promise(r => setTimeout(r, 1000));
+	}
 });
 
 // --- Functions related to different hue for different properties ---
