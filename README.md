@@ -1,5 +1,11 @@
 # overlay-graph-visualizer
 
+## TODO
+
+- [ ] Smooth transition when Node State window resizes
+- [ ] Slider to go forward in the logs
+- [ ] Scary but... allow for the logs to move backward as well 
+
 ## Example Log Format
 
 (I know JSON doesn't have comments, this is just to exemplify)
