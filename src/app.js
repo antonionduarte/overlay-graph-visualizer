@@ -1,3 +1,5 @@
+// Example logs
+
 let currentTimestamp = 0; // Tracks the current timestamp
 
 let currentNodes = new Map(); // Tracks current nodes using a Map for easy access
