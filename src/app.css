@@ -18,14 +18,132 @@ a {
 	text-decoration: none;
 }
 
-.container {
-	display: grid;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+input[type="range"] {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	width: 100%;
+	cursor: pointer;
+	outline: none;
+	background: #cdd6f4;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	height: 15px;
+	width: 15px;
+	background-color: #6c7086;
+	border-radius: 50%;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	height: 15px;
+	width: 15px;
+	border-radius: 50%;
+	background-color: #89b4fa;
+}
+
+#slider-container {
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+	border-radius: 3rem;
+	margin: auto;
+	bottom: 10px;
+	background: #cdd6f4;
+	width: 300px;
+	height: 35px;
+	position: fixed;
+	font-size: 16px;
+    display: flex;           /* Enable flexbox */
+    justify-content: space-between; /* Align items to the sides */
+    align-items: center;     /* Center vertically */
+}
+
+#left-arrow, #right-arrow {
+    width: 1.3em;  /* Adjust the size as needed */
+    height: 1.3em; /* Adjust the size as needed */
+	/* padding: 2.3em; */
+	flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#left-arrow {
+	padding-left: 2.8em;
+	padding-right: 0.5em;
+}
+
+#right-arrow {
+	padding-right: 2.8em;
+	padding-left: 0.5em;
+}
+
+#left-arrow svg, #right-arrow svg {
+	fill: #585b70;
+	stroke-width: 50;
+}
+
+#left-arrow svg:hover, #right-arrow svg:hover {
+	fill: #89b4fa;
+	cursor: grab;
+	stroke-width: 50;
+}
+
+#left-arrow img, #right-arrow img {
+    width: 100%;
+    height: auto;
+}
+
+#left-double-arrow, #right-double-arrow {
+    width: 1.3em;  /* Adjust the size as needed */
+    height: 1.3em; /* Adjust the size as needed */
+	/* padding: 2.3em; */
+	flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#left-double-arrow svg, #right-double-arrow svg {
+	fill: #585b70;
+	stroke-width: 50;
+}
+
+#left-double-arrow svg:hover, #right-double-arrow svg:hover {
+	fill: #89b4fa;
+	cursor: grab;
+	stroke-width: 50;
+}
+
+#left-double-arrow img, #right-double-arrow img {
+    width: 100%;
+    height: auto;
+}
+
+#time-slider {
+	/* margin: auto; */
+	position: fixed;
+	width: 150px;
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.centered {
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 .modal-window {
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 	position: fixed;
 	bottom: 10px; /* Adjust padding from bottom */
 	right: 10px; /* Adjust padding from right */
@@ -35,14 +153,9 @@ a {
 	pointer-events: none;
 	transition: all 0.3s;
 	padding: 1em;
-	background: #eff1f5;
+	background: #cdd6f4;
 	border-radius: 1rem;
 	box-sizing: border-box; /* Include padding in the width and height */
-	/* transition: height 1s ease, width 1s ease; /* Adjust '0.3s' to control the speed */
-    /* box-sizing: border-box; */
-    /* max-height: 0; /* Initially no height */ */
-    /* max-width: 400px; /* Max width can be adjusted as needed */ */
-    /* overflow: hidden; /* Hide overflow during transition */ */
     transition: max-height 0.3s ease, opacity 0.3s ease; /* Transition for max-height and opacity */
 }
 
