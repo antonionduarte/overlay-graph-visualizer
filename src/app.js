@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 	for (let i = 0; i < 60; i++) {
 		updateGraph(i, chart, logs)
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 	}
 });
 
