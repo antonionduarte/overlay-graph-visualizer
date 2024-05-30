@@ -2,6 +2,10 @@
 
 Project that provided a way to scrub through structured log files of a distributed protocol that forms an overlay, and allows you to visualize at each timestamp the state of the resulting overlay network, and the internal state of each node upon selecting it.
 
+<p align="center">
+    <img src="./images/screenshot.png" width="600">
+</p>
+
 ## TODO
 
 - [ ] Smooth transition when Node State window resizes
